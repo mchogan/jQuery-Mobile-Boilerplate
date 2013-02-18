@@ -24,6 +24,7 @@ Clone the git repo - `git clone git@github.com:commadelimited/jQuery-Mobile-Boil
 * The latest jQuery bits from CDN, with a local option.
 * Override files for both JS and CSS
 * Extensive UI element snippet library. Easy to copy and paste.
+* Geolocation demo
 
 ## Contributing
 
