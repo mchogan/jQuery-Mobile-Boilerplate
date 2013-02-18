@@ -25,6 +25,7 @@ Clone the git repo - `git clone git@github.com:commadelimited/jQuery-Mobile-Boil
 * Override files for both JS and CSS
 * Extensive UI element snippet library. Easy to copy and paste.
 * Geolocation demo
+* Offline caching with cache.manifest
 
 ## Contributing
 
