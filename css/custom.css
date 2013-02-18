@@ -2,3 +2,8 @@
 	jQuery Mobile Boilerplate
 	css/custom.css
 */
+
+/* Center the footer */
+[data-role="footer"] {
+  text-align:center;
+}
