@@ -69,19 +69,19 @@ function geolocation(geolocationState) {
       /* var myTimestamp = ''; */
 
       /* Set variables for Geolocation API properties */
-      myLatitude = position.coords.latitude ;
+      myLatitude = Math.round(position.coords.latitude*1000000)/1000000 ;
       
-      myLongitude = position.coords.longitude ;
+      myLongitude = Math.round(position.coords.longitude*1000000)/1000000 ;
       
-      myAccuracy = position.coords.accuracy ; // meters      
+      myAccuracy = Math.round(position.coords.accuracy*1000)/1000 + ' m' ; // meters      
       
-      myAltitude = position.coords.altitude != null ? position.coords.altitude + ' m' : 'Not available'; // meters
+      myAltitude = position.coords.altitude != null ? Math.round(position.coords.altitude*1000)/1000 + ' m' : 'Not available'; // meters
       
-      myAltitudeAccuracy = position.coords.altitudeAccuracy != null ? position.coords.altitudeAccuracy + ' m' : 'Not available'; // meters
+      myAltitudeAccuracy = position.coords.altitudeAccuracy != null ? Math.round(position.coords.altitudeAccuracy*1000)/1000 + ' m' : 'Not available'; // meters
             
-      myHeading = position.coords.Heading != null ? position.coords.Heading + ' degrees' : 'Not available'; // degrees
+      myHeading = position.coords.Heading != null ? Math.round(position.coords.Heading*1000)/1000 + ' degrees' : 'Not available'; // degrees
       
-      mySpeed = position.coords.Speed != null ? position.coords.Speed + ' m/s' : 'Not available'; // meters per second
+      mySpeed = position.coords.Speed != null ? Math.round(position.coords.Speed*1000)/1000 + ' m/s' : 'Not available'; // meters per second
       
       myTimestamp = new Date(position.timestamp + 946684799241).toLocaleString(); // DOMTimeStamp in user's local time
       // For some reason position.timestamp returns the wrong year.
@@ -113,7 +113,7 @@ function geolocation(geolocationState) {
       
       /* The following section calculates and displays
          the distance from the devices current location
-         to Sertino's coffee shop, the awesome cafe where
+         to Sertino's Coffee Cafe, the awesome cafe where
          this code was written.
          
          http://www.yelp.com/biz/sertinos-cafe-huntington-beach
@@ -125,7 +125,10 @@ function geolocation(geolocationState) {
       
       var myDistanceToSertinos = haversine(33.6581196, -118.0022576, myLatitude, myLongitude);
       myDistanceToSertinos = Math.round(myDistanceToSertinos * 1000)/1000;
-      var locationTolerance = myAccuracy / 1000 ; // Adjusts location tolerance based on position accuracy
+      
+      // Adjusts location tolerance based on position accuracy
+      // converts accuracy unit (m) to haversine distance unit (km)
+      var locationTolerance = myAccuracy / 1000 ;
       if (myDistanceToSertinos < locationTolerance) {
         $('#myDistanceToSertinosIs').html("You're at Sertino's Coffee Cafe! <br/>That's where this geolocation boilerplate was written! <br/>Well... maybe not, but you're certainly within " + myAccuracy + " m.");
       } else
