@@ -9,6 +9,11 @@
 }
 
 /* Geolocation Styles */
+table#geolocation-data {
+  width:90%;
+  margin:auto;
+}
+
 table#geolocation-data td {
   border:1px solid lightgrey;
 }
