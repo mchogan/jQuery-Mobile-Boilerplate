@@ -41,6 +41,7 @@ You are invited to contribute code and suggestions to this project. The more the
 
 * jQuery: MIT/GPL license
 * jQuery Mobile: MIT/GPL license
+* [iOS Orientation Change Fix](https://github.com/scottjehl/iOS-Orientationchange-Fix): MIT/GPLv2 license
 
 ### Custom bits:
 
