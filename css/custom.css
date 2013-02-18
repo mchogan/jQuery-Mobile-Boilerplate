@@ -17,7 +17,3 @@ table#geolocation-data {
 table#geolocation-data td {
   border:1px solid lightgrey;
 }
-
-#geolocationStatus {
-  color:red;
-}

@@ -43,7 +43,6 @@ function geolocation(geolocationState) {
   if (geolocationState == 'geolocation-on') {
     	  
 	  // var watcher = null;
-	  console.log('watcher: '+ watcher);
     var options = {
       enableHighAccuracy: true,
       timeout: 100
@@ -52,7 +51,6 @@ function geolocation(geolocationState) {
     if (window.navigator.geolocation) {
       watcher = navigator.geolocation.watchPosition(successCallback, 
                   errorCallback, options);
-      console.log('watcher: '+ watcher);
     } else {
       $('#geolocationStatus').text('Your browser does not natively support geolocation.');
     }
@@ -72,12 +70,19 @@ function geolocation(geolocationState) {
 
       /* Set variables for Geolocation API properties */
       myLatitude = position.coords.latitude ;
+      
       myLongitude = position.coords.longitude ;
-      myAccuracy = position.coords.accuracy ; // meters
-      myAltitude = position.coords.altitude ; // meters    
-      myAltitudeAccuracy = position.coords.altitudeAccuracy ; // meters
-      myHeading = position.coords.Heading ; // degrees
-      mySpeed = position.coords.Speed ; // meters per second
+      
+      myAccuracy = position.coords.accuracy ; // meters      
+      
+      myAltitude = position.coords.altitude != null ? position.coords.altitude + ' m' : 'Not available'; // meters
+      
+      myAltitudeAccuracy = position.coords.altitudeAccuracy != null ? position.coords.altitudeAccuracy + ' m' : 'Not available'; // meters
+            
+      myHeading = position.coords.Heading != null ? position.coords.Heading + ' degrees' : 'Not available'; // degrees
+      
+      mySpeed = position.coords.Speed != null ? position.coords.Speed + ' m/s' : 'Not available'; // meters per second
+      
       myTimestamp = new Date(position.timestamp + 946684799241).toLocaleString(); // DOMTimeStamp in user's local time
       // For some reason position.timestamp returns the wrong year.
       // I'm adding just under 30 years in order to get the correct time in Safari
@@ -105,7 +110,30 @@ function geolocation(geolocationState) {
       $('#myHeadingIs').text(myHeading);
       $('#mySpeedIs').text(mySpeed);
       $('#myTimestampIs').text(myTimestamp);
-
+      
+      /* The following section calculates and displays
+         the distance from the devices current location
+         to Sertino's coffee shop, the awesome cafe where
+         this code was written.
+         
+         http://www.yelp.com/biz/sertinos-cafe-huntington-beach
+         
+         */
+         
+      /* Calculate distance 
+         distance = haversine(lat1, lon1, lat2, lon2)  */
+      
+      var myDistanceToSertinos = haversine(33.6581196, -118.0022576, myLatitude, myLongitude);
+      myDistanceToSertinos = Math.round(myDistanceToSertinos * 1000)/1000;
+      var locationTolerance = myAccuracy / 1000 ; // Adjusts location tolerance based on position accuracy
+      if (myDistanceToSertinos < locationTolerance) {
+        $('#myDistanceToSertinosIs').html("You're at Sertino's Coffee Cafe! <br/>That's where this geolocation boilerplate was written! <br/>Well... maybe not, but you're certainly within " + myAccuracy + " m.");
+      } else
+      {
+        $('#myDistanceToSertinosIs').text("My distance to the cafe where geolocation boilerplate was written is: "
+         + myDistanceToSertinos + " km.");
+      }
+      
     }
 
     function errorCallback(error) {
@@ -125,9 +153,9 @@ function geolocation(geolocationState) {
 	} else
 	{
 	  $('#geolocationStatus').text('Turn geolocation on to activate GPS and view your location.');
+	  $('#myDistanceToSertinosIs').text("");
 	  $('#geolocation-data').hide();
 	  navigator.geolocation.clearWatch(watcher);
-	  console.log('watcher: '+ watcher);
 	}
 
 }
