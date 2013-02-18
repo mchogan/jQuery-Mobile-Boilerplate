@@ -7,3 +7,8 @@
 [data-role="footer"] {
   text-align:center;
 }
+
+/* Geolocation Styles */
+table#geolocation-data td {
+  border:1px solid lightgrey;
+}
