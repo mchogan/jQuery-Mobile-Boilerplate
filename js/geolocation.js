@@ -10,81 +10,127 @@
 */
 $(document).on("pageinit", function(event){
 	// custom code goes here
-
-  var watcher = null;
-  var options = {
-    enableHighAccuracy: true,
-    timeout: 100
-  };
-
-  if (window.navigator.geolocation) {
-    watcher = navigator.geolocation.watchPosition(successCallback, 
-                errorCallback, options);
-  } else {
-    alert('Your browser does not natively support geolocation.');
-  }
-
-  function successCallback(position) {
-    // Do something with a location here
-    
-    /* Define variables for Geolocation API properties */
-    var myLatitude = '';
-    var myLongitude = '';
-    var myAccuracy = '';
-    var myAltitude = '';
-    var myAltitudeAccuracy = '';
-    var myHeading = '';
-    var mySpeed = '';
-    /* var myTimestamp = ''; */
-    
-    /* Set variables for Geolocation API properties */
-    myLatitude = position.coords.latitude ;
-    myLongitude = position.coords.longitude ;
-    myAccuracy = position.coords.accuracy ; // meters
-    myAltitude = position.coords.altitude ; // meters    
-    myAltitudeAccuracy = position.coords.altitudeAccuracy ; // meters
-    myHeading = position.coords.Heading ; // degrees
-    mySpeed = position.coords.Speed ; // meters per second
-    myTimestamp = new Date(position.timestamp + 946684799241).toLocaleString(); // DOMTimeStamp in user's local time
-    // For some reason position.timestamp returns the wrong year.
-    // I'm adding just under 30 years in order to get the correct time in Safari
-    // 946684799241 milliseconds = 29.9992717681374 years
-        
-    /* 
-        DOMTimeStamp
-        
-        Number of milliseconds since the epoch,
-        defined as midnight of the morning of January 1, 1970
-    */
-    
-    /* Print Geolocation API properties */
-    $('#myLatitudeIs').text(myLatitude);
-    $('#myLongitudeIs').text(myLongitude);
-    $('#myAccuracyIs').text(myAccuracy);
-    $('#myAltitudeIs').text(myAltitude);
-    $('#myAltitudeAccuracyIs').text(myAltitudeAccuracy);
-    $('#myHeadingIs').text(myHeading);
-    $('#mySpeedIs').text(mySpeed);
-    $('#myTimestampIs').text(myTimestamp);
-        
-  }
-
-  function errorCallback(error) {
-    // There was a problem getting the location
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        alert('You have denied access to your position.');
-        break;
-      case error.POSITION_UNAVAILABLE:
-        alert('There was a problem getting your position.');
-        break;
-      case error.TIMEOUT:
-        alert('The application has timed out attempting to get your location.');
-        break;
-    }
-  }
+	
+	watcher = null;
+	
+	geolocationState = 'geolocation-off';
+	
+	$('#geolocation-data').hide();	
+	
+	$('#geolocation-switch').change(function() {
+      geolocationState = $("select#geolocation-switch").val();
+      navigator.geolocation.clearWatch(watcher);
+      geolocation(geolocationState);
+  });
+  
+  // call geolocation() at least once
+  geolocation(geolocationState); // geolocation-off or geolocation-on
   
 });
+
+function geolocation(geolocationState) {
+  /* Geolocation switch logic
+	*
+	*   If geolocation-switch = 'off',
+	*   then navigator.geolocation.clearWatch(watcher);
+	*   
+	*   If geolocation-switch = 'on',
+	*  then watcher = navigator.geolocation.watchPosition(successCallback, 
+  *              errorCallback, options);
+  *               
+  */
+
+  if (geolocationState == 'geolocation-on') {
+    	  
+	  // var watcher = null;
+	  console.log('watcher: '+ watcher);
+    var options = {
+      enableHighAccuracy: true,
+      timeout: 100
+    };
+
+    if (window.navigator.geolocation) {
+      watcher = navigator.geolocation.watchPosition(successCallback, 
+                  errorCallback, options);
+      console.log('watcher: '+ watcher);
+    } else {
+      $('#geolocationStatus').text('Your browser does not natively support geolocation.');
+    }
+
+    function successCallback(position) {
+      // Do something with a location here
+
+      /* Define variables for Geolocation API properties */
+      var myLatitude = '';
+      var myLongitude = '';
+      var myAccuracy = '';
+      var myAltitude = '';
+      var myAltitudeAccuracy = '';
+      var myHeading = '';
+      var mySpeed = '';
+      /* var myTimestamp = ''; */
+
+      /* Set variables for Geolocation API properties */
+      myLatitude = position.coords.latitude ;
+      myLongitude = position.coords.longitude ;
+      myAccuracy = position.coords.accuracy ; // meters
+      myAltitude = position.coords.altitude ; // meters    
+      myAltitudeAccuracy = position.coords.altitudeAccuracy ; // meters
+      myHeading = position.coords.Heading ; // degrees
+      mySpeed = position.coords.Speed ; // meters per second
+      myTimestamp = new Date(position.timestamp + 946684799241).toLocaleString(); // DOMTimeStamp in user's local time
+      // For some reason position.timestamp returns the wrong year.
+      // I'm adding just under 30 years in order to get the correct time in Safari
+      // 946684799241 milliseconds = 29.9992717681374 years
+
+      /* 
+          DOMTimeStamp
+
+          Number of milliseconds since the epoch,
+          defined as midnight of the morning of January 1, 1970
+      */
+
+      /* Print Geolocation Status */
+      $('#geolocationStatus').text('');
+      
+      /* Show Geolocation data table */
+      $('#geolocation-data').show();
+
+      /* Print Geolocation API properties */
+      $('#myLatitudeIs').text(myLatitude);
+      $('#myLongitudeIs').text(myLongitude);
+      $('#myAccuracyIs').text(myAccuracy);
+      $('#myAltitudeIs').text(myAltitude);
+      $('#myAltitudeAccuracyIs').text(myAltitudeAccuracy);
+      $('#myHeadingIs').text(myHeading);
+      $('#mySpeedIs').text(mySpeed);
+      $('#myTimestampIs').text(myTimestamp);
+
+    }
+
+    function errorCallback(error) {
+      // There was a problem getting the location
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          $('#geolocationStatus').text('Error: You have denied access to your position.');
+          break;
+        case error.POSITION_UNAVAILABLE:
+          $('#geolocationStatus').text('Error: There was a problem getting your position.');
+          break;
+        case error.TIMEOUT:
+          $('#geolocationStatus').text('Error: The application has timed out attempting to get your location.');
+          break;
+      }
+    }
+	} else
+	{
+	  $('#geolocationStatus').text('Turn geolocation on to activate GPS and view your location.');
+	  $('#geolocation-data').hide();
+	  navigator.geolocation.clearWatch(watcher);
+	  console.log('watcher: '+ watcher);
+	}
+
+}
 
 function toRad(value) {
   // Converts degres to radians
