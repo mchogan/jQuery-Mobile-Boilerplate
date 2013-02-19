@@ -25,16 +25,7 @@ $(document).on("pageinit", function(event){
   
   // call geolocation() at least once
   geolocation(geolocationState);
-  
-  // if cache update is available, ask user to update
-  if (window.applicationCache) {
-      applicationCache.addEventListener('updateready', function() {
-          if (confirm('An update is available. Reload now?')) {
-              window.location.reload();
-          }
-      });
-  }
-  
+    
 });
 
 function geolocation(geolocationState) {
