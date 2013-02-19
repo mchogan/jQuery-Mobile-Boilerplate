@@ -1,6 +1,8 @@
 CACHE MANIFEST
-# 2013-02-18-15:41
+# 2013-02-18-21:18
 
+# Items to request and store
+CACHE:
 apple-touch-icon-114x114-precomposed.png
 apple-touch-icon-57x57-precomposed.png
 apple-touch-icon-72x72-precomposed.png
@@ -53,15 +55,10 @@ themes/images/icons-36-white.png
 themes/jQuery-Mobile-Boilerplate.css
 themes/jQuery-Mobile-Boilerplate.min.css
 
-# The NETWORK section below specifies that the file "robots.txt" 
-# should never be cached, and will not be available offline
-
+# Resources available only while online
 NETWORK:
 assets/icon.ai
 robots.txt
 
-# The FALLBACK section below specifies that "offline.html" 
-# will be served in place of all files in the /html/ catalog, 
-# in case an internet connection cannot be established
-
+# How to handle user attempts to access an uncached file
 FALLBACK:
