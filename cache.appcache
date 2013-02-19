@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# 2013-02-18-15:41
+# 2013-02-18-15:51
 
 apple-touch-icon-114x114-precomposed.png
 apple-touch-icon-57x57-precomposed.png
@@ -38,8 +38,8 @@ index.html
 js/application.js
 js/geolocation.js
 js/ios-orientationchange-fix.js
-js/jquery-1.8.2-min.js
 js/jquery-1.8.2.js
+js/jquery-1.8.2.min.js
 js/jquery.mobile-1.2.0.js
 js/jquery.mobile-1.2.0.min.js
 js/mobileinit.js
@@ -65,3 +65,4 @@ robots.txt
 # in case an internet connection cannot be established
 
 FALLBACK:
+/ offline.html
