@@ -71,13 +71,13 @@ function successCallback(position) {
 
   myAccuracy = Math.round(position.coords.accuracy * 1000) / 1000 + ' m'; // meters      
 
-  myAltitude = position.coords.altitude !== null ? Math.round(position.coords.altitude * 1000) / 1000 + ' m' : 'Not available'; // meters
+  myAltitude = position.coords.altitude === null ? 'Not available' : Math.round(position.coords.altitude * 1000) / 1000 + ' m'; // meters
 
-  myAltitudeAccuracy = position.coords.altitudeAccuracy !== null ? Math.round(position.coords.altitudeAccuracy * 1000) / 1000 + ' m' : 'Not available'; // meters
+  myAltitudeAccuracy = position.coords.altitudeAccuracy === null ? 'Not available' : Math.round(position.coords.altitudeAccuracy * 1000) / 1000 + ' m'; // meters
 
-  myHeading = position.coords.Heading !== null ? Math.round(position.coords.Heading * 1000) / 1000 + ' degrees' : 'Not available'; // degrees
+  myHeading = position.coords.Heading === null || isNaN(position.coords.Heading) ? 'Not available' : Math.round(position.coords.Heading * 1000) / 1000 + ' degrees'; // degrees
 
-  mySpeed = position.coords.Speed !== null ? Math.round(position.coords.Speed * 1000) / 1000 + ' m/s' : 'Not available'; // meters per second
+  mySpeed = position.coords.Speed === null || isNaN(position.coords.Heading) ? 'Not available' : Math.round(position.coords.Speed * 1000) / 1000 + ' m/s'; // meters per second
 
   myTimestamp = new Date(position.timestamp + 946684799241).toLocaleString(); // DOMTimeStamp in user's local time
   // For some reason position.timestamp returns the wrong year.
